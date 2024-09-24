@@ -1,0 +1,29 @@
+name: Prepend Jira Ticket Description to PR
+
+on:
+  pull_request:
+    types: [opened, edited]
+
+jobs:
+  update-pr-description:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'  # Update Node.js version to 16 or later
+
+    - name: Install dependencies
+      run: npm install axios @actions/github
+
+    - name: Run Prepend Jira Ticket Description Script
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+        JIRA_USERNAME: ${{ secrets.JIRA_USERNAME }}
+        JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+      run: node scripts/prepend_jira_info.js

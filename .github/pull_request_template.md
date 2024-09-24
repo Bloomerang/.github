@@ -1,9 +1,3 @@
-## Description
-
-**Jira Ticket:** #(jira_ticket_url)
-
-Provide a brief description of this PR.
-
 ## Type of change
 
 Describe material changes to code in this section. Do not copy/paste the Jira description.
