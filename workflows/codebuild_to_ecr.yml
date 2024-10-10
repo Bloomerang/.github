@@ -1,0 +1,57 @@
+name: 'Call Build and Save Image'
+
+run-name: 'Build ${{ github.ref_name }} and Save Image to ECR'
+
+on:
+  workflow_call:
+
+jobs:
+  build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set outputs
+        id: vars
+        run: |
+          echo "short_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+          echo "repo_name=${GITHUB_REPOSITORY#*/}" >> $GITHUB_OUTPUT
+
+      - name: Setup AWS ECR Details
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-west-2
+          role-to-assume: arn:aws:iam::828259249652:role/github-actions-codebuild
+          unset-current-credentials: true
+
+      - name: Run CodeBuild
+        uses: aws-actions/aws-codebuild-run-build@v1
+        with:
+          project-name: ${{ steps.vars.outputs.repo_name }}
+          env-vars-for-codebuild: |
+            ECR_REPO_NAME,
+            IMAGE_TAG
+        env:
+          ECR_REPO_NAME: ${{ steps.vars.outputs.repo_name }}
+          IMAGE_TAG: ${{ steps.vars.outputs.short_sha }}
+      - run: |
+          echo '### Image Saved To Elastic Container Registry 🚀' >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Image Tag: ${{ steps.vars.outputs.short_sha }}" >> $GITHUB_STEP_SUMMARY
+
+      - name: Set Environment Variables
+        run: |
+          echo --> Storing image tag in AWS SSM Parameter Store.
+          aws ssm put-parameter \
+            --name '/deployment/${{ steps.vars.outputs.repo_name }}/all-environments/build_ecr_image_tag' \
+            --value ${{ steps.vars.outputs.short_sha }}
+            --type String
+            --overwrite
+
+    outputs:
+      image_tag: ${{ steps.vars.outputs.short_sha }}
