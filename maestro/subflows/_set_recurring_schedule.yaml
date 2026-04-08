@@ -1,0 +1,13 @@
+# Sets up a recurring donation schedule.
+# Assumes the Add Donation sheet already has recurring type selected.
+# Env: FREQUENCY (e.g. "Monthly", "Weekly", "Annually")
+---
+- tapOn:
+    id: "RecurringFrequencySelector"
+- waitForAnimationToEnd
+- tapOn:
+    text: ${FREQUENCY}
+- waitForAnimationToEnd
+# Start date defaults to today — adjust here if needed
+- assertVisible:
+    id: "RecurringStartDateLabel"

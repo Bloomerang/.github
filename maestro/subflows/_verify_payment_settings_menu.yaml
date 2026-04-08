@@ -1,0 +1,16 @@
+# TC-02: Opens the side/navigation menu, goes to Payment Settings,
+# and asserts that "Bloomerang Payments" is listed there.
+---
+- tapOn:
+    id: "HamburgerMenuButton"
+- waitForAnimationToEnd
+- tapOn:
+    id: "PaymentSettingsMenuItem"
+- waitForAnimationToEnd
+# Bloomerang Payments entry must be visible in the settings list
+- assertVisible:
+    id: "BloomerangPaymentsRow"
+# Navigate back to home for subsequent tests
+- tapOn:
+    id: "BackButton"
+- waitForAnimationToEnd

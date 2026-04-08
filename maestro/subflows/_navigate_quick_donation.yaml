@@ -1,0 +1,7 @@
+# Opens the Quick Donation sheet from the dashboard.
+---
+- tapOn:
+    id: "QuickDonationButton"
+- waitForAnimationToEnd
+- assertVisible:
+    id: "QuickDonationAmountEntry"

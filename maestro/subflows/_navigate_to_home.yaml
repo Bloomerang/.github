@@ -1,0 +1,25 @@
+# Returns to the dashboard / home screen from wherever the app currently is.
+# Taps the Home tab; falls back to the hamburger menu if needed.
+---
+- runFlow:
+    when:
+      visible:
+        id: "HomeTab"
+    commands:
+      - tapOn:
+          id: "HomeTab"
+      - waitForAnimationToEnd
+- runFlow:
+    when:
+      NOT:
+        visible:
+          id: "QuickDonationButton"
+    commands:
+      - tapOn:
+          id: "HamburgerMenuButton"
+      - waitForAnimationToEnd
+      - tapOn:
+          id: "HomeMenuItem"
+      - waitForAnimationToEnd
+- assertVisible:
+    id: "QuickDonationButton"

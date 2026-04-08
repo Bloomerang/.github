@@ -1,0 +1,7 @@
+# Selects "EFT / Bank Account" as the payment method.
+---
+- tapOn:
+    id: "PaymentMethodEFTOption"
+- waitForAnimationToEnd
+- assertVisible:
+    id: "EFTEntryForm"

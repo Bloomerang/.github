@@ -1,0 +1,20 @@
+# CC entry method: Physical card swiper/reader
+# Requires the reader to already be connected (_connect_card_swiper.yaml).
+# Selects the swiper entry method and waits for the card-read event.
+---
+- tapOn:
+    id: "EntryMethodSwiperButton"
+- waitForAnimationToEnd
+# Prompt the tester (or automation harness) to swipe/insert the test card now.
+# In a fully automated environment the reader can be triggered via BLE command
+# or a hardware relay; in manual-assist mode the tester does this step.
+- assertVisible:
+    id: "SwipeCardPromptLabel"
+# Wait up to 30 s for the card read event
+- assertVisible:
+    id: "CardReadSuccessIndicator"
+    timeout: 30000
+- tapOn:
+    id: "ProcessPaymentButton"
+- waitForAnimationToEnd:
+    timeout: 20000

@@ -1,0 +1,45 @@
+# Launches the app fresh, logs in, and verifies:
+#   - Bloomerang Payments auto-connect indicator is visible
+#   - Quick Donation button is available on the dashboard
+# Env: EMAIL, PASSWORD
+---
+- launchApp:
+    clearState: true
+    # clearKeychain: true  # uncomment on iOS if stored credentials interfere
+- waitForAnimationToEnd
+# ── Org selection (if multi-org login screen appears first) ──────────────────
+- runFlow:
+    when:
+      visible:
+        id: "OrgSearchEntry"
+    commands:
+      - tapOn:
+          id: "OrgSearchEntry"
+      - inputText: ${TEST_ORG}
+      - waitForAnimationToEnd
+      - tapOn:
+          id: "OrgResultsList"
+          index: 0
+      - waitForAnimationToEnd
+# ── Credentials ─────────────────────────────────────────────────────────────
+- tapOn:
+    id: "EmailEntry"
+- clearText
+- inputText: ${EMAIL}
+- tapOn:
+    id: "PasswordEntry"
+- clearText
+- inputText: ${PASSWORD}
+- hideKeyboard
+- tapOn:
+    id: "SignInButton"
+- waitForAnimationToEnd:
+    timeout: 10000
+# ── Assertions ───────────────────────────────────────────────────────────────
+# Bloomerang Payments auto-connected indicator (badge / status chip)
+- assertVisible:
+    id: "PaymentsConnectedIndicator"
+    timeout: 15000
+# Quick Donation tile must be present on the dashboard
+- assertVisible:
+    id: "QuickDonationButton"

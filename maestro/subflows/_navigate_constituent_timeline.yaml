@@ -1,0 +1,17 @@
+# Navigates to a specific constituent's timeline via the Constituents tab.
+# Env: CONSTITUENT (display name, e.g. "Jane Doe")
+---
+- tapOn:
+    id: "ConstituentsTab"
+- waitForAnimationToEnd
+- tapOn:
+    id: "ConstituentSearchBar"
+- inputText: ${CONSTITUENT}
+- waitForAnimationToEnd
+- tapOn:
+    id: "ConstituentSearchResultsList"
+    index: 0
+- waitForAnimationToEnd
+# Confirm we're on the correct constituent's timeline
+- assertVisible:
+    id: "ConstituentTimelineView"

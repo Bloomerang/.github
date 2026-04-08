@@ -1,0 +1,225 @@
+appId: com.bloomerang.mobile
+name: Bloomerang Payments — Full E2E Suite
+tags:
+  - payments
+  - regression
+---
+
+# ─────────────────────────────────────────────
+# TC-01  Login → auto-connect + quick donation
+# ─────────────────────────────────────────────
+- runFlow:
+    file: ./subflows/_login.yaml
+    env:
+      EMAIL: ${TEST_EMAIL}
+      PASSWORD: ${TEST_PASSWORD}
+
+# ─────────────────────────────────────────────
+# TC-02  Payment settings menu shows Bloomerang Payments
+# ─────────────────────────────────────────────
+- runFlow: ./subflows/_verify_payment_settings_menu.yaml
+
+# ─────────────────────────────────────────────
+# TC-03  Quick Donation — CC — Tap to Pay
+# ─────────────────────────────────────────────
+- runFlow: ./subflows/_navigate_quick_donation.yaml
+- runFlow:
+    file: ./subflows/_set_donation_amount.yaml
+    env:
+      AMOUNT: ${DONATION_AMOUNT_SMALL}
+- runFlow: ./subflows/_select_cc.yaml
+- runFlow: ./subflows/_pay_cc_t2p.yaml
+- runFlow: ./subflows/_verify_donation_success.yaml
+
+# ─────────────────────────────────────────────
+# TC-04  Quick Donation — CC — Manual Entry
+# ─────────────────────────────────────────────
+- runFlow: ./subflows/_navigate_to_home.yaml
+- runFlow: ./subflows/_navigate_quick_donation.yaml
+- runFlow:
+    file: ./subflows/_set_donation_amount.yaml
+    env:
+      AMOUNT: ${DONATION_AMOUNT_MEDIUM}
+- runFlow: ./subflows/_select_cc.yaml
+- runFlow:
+    file: ./subflows/_pay_cc_manual.yaml
+    env:
+      CC_NUMBER: ${CC_NUMBER}
+      CC_EXPIRY: ${CC_EXPIRY}
+      CC_CVV: ${CC_CVV}
+      CC_ZIP: ${CC_ZIP}
+- runFlow: ./subflows/_verify_donation_success.yaml
+
+# ─────────────────────────────────────────────
+# TC-05  Connect swiper → Quick Donation — CC — Card Swiper
+# ─────────────────────────────────────────────
+- runFlow: ./subflows/_navigate_to_home.yaml
+- runFlow: ./subflows/_connect_card_swiper.yaml
+- runFlow: ./subflows/_navigate_quick_donation.yaml
+- runFlow:
+    file: ./subflows/_set_donation_amount.yaml
+    env:
+      AMOUNT: ${DONATION_AMOUNT_SMALL}
+- runFlow: ./subflows/_select_cc.yaml
+- runFlow: ./subflows/_pay_cc_swiper.yaml
+- runFlow: ./subflows/_verify_donation_success.yaml
+
+# ─────────────────────────────────────────────
+# TC-06  Quick Donation — EFT
+# ─────────────────────────────────────────────
+- runFlow: ./subflows/_navigate_to_home.yaml
+- runFlow: ./subflows/_navigate_quick_donation.yaml
+- runFlow:
+    file: ./subflows/_set_donation_amount.yaml
+    env:
+      AMOUNT: ${DONATION_AMOUNT_MEDIUM}
+- runFlow: ./subflows/_select_eft.yaml
+- runFlow:
+    file: ./subflows/_pay_eft.yaml
+    env:
+      ROUTING: ${EFT_ROUTING}
+      ACCOUNT: ${EFT_ACCOUNT}
+- runFlow: ./subflows/_verify_donation_success.yaml
+
+# ─────────────────────────────────────────────
+# TC-07  Constituent Timeline — Add Donation — CC — T2P
+# ─────────────────────────────────────────────
+- runFlow: ./subflows/_navigate_to_home.yaml
+- runFlow:
+    file: ./subflows/_navigate_constituent_timeline.yaml
+    env:
+      CONSTITUENT: ${TEST_CONSTITUENT}
+- runFlow: ./subflows/_open_add_donation.yaml
+- runFlow:
+    file: ./subflows/_set_donation_amount.yaml
+    env:
+      AMOUNT: ${DONATION_AMOUNT_SMALL}
+- runFlow: ./subflows/_select_cc.yaml
+- runFlow: ./subflows/_pay_cc_t2p.yaml
+- runFlow: ./subflows/_verify_donation_success.yaml
+
+# ─────────────────────────────────────────────
+# TC-08  Constituent Timeline — Add Donation — CC — Manual Entry
+# ─────────────────────────────────────────────
+- runFlow: ./subflows/_navigate_to_home.yaml
+- runFlow:
+    file: ./subflows/_navigate_constituent_timeline.yaml
+    env:
+      CONSTITUENT: ${TEST_CONSTITUENT}
+- runFlow: ./subflows/_open_add_donation.yaml
+- runFlow:
+    file: ./subflows/_set_donation_amount.yaml
+    env:
+      AMOUNT: ${DONATION_AMOUNT_MEDIUM}
+- runFlow: ./subflows/_select_cc.yaml
+- runFlow:
+    file: ./subflows/_pay_cc_manual.yaml
+    env:
+      CC_NUMBER: ${CC_NUMBER}
+      CC_EXPIRY: ${CC_EXPIRY}
+      CC_CVV: ${CC_CVV}
+      CC_ZIP: ${CC_ZIP}
+- runFlow: ./subflows/_verify_donation_success.yaml
+
+# ─────────────────────────────────────────────
+# TC-09  Connect swiper → Constituent Timeline — Add Donation — CC — Swiper
+# ─────────────────────────────────────────────
+- runFlow: ./subflows/_navigate_to_home.yaml
+- runFlow: ./subflows/_connect_card_swiper.yaml
+- runFlow:
+    file: ./subflows/_navigate_constituent_timeline.yaml
+    env:
+      CONSTITUENT: ${TEST_CONSTITUENT}
+- runFlow: ./subflows/_open_add_donation.yaml
+- runFlow:
+    file: ./subflows/_set_donation_amount.yaml
+    env:
+      AMOUNT: ${DONATION_AMOUNT_SMALL}
+- runFlow: ./subflows/_select_cc.yaml
+- runFlow: ./subflows/_pay_cc_swiper.yaml
+- runFlow: ./subflows/_verify_donation_success.yaml
+
+# ─────────────────────────────────────────────
+# TC-10  Constituent Timeline — Add Donation — EFT
+# ─────────────────────────────────────────────
+- runFlow: ./subflows/_navigate_to_home.yaml
+- runFlow:
+    file: ./subflows/_navigate_constituent_timeline.yaml
+    env:
+      CONSTITUENT: ${TEST_CONSTITUENT}
+- runFlow: ./subflows/_open_add_donation.yaml
+- runFlow:
+    file: ./subflows/_set_donation_amount.yaml
+    env:
+      AMOUNT: ${DONATION_AMOUNT_MEDIUM}
+- runFlow: ./subflows/_select_eft.yaml
+- runFlow:
+    file: ./subflows/_pay_eft.yaml
+    env:
+      ROUTING: ${EFT_ROUTING}
+      ACCOUNT: ${EFT_ACCOUNT}
+- runFlow: ./subflows/_verify_donation_success.yaml
+
+# ─────────────────────────────────────────────
+# TC-11  Constituent Timeline — Add Donation — Saved Payment
+# ─────────────────────────────────────────────
+- runFlow: ./subflows/_navigate_to_home.yaml
+- runFlow:
+    file: ./subflows/_navigate_constituent_timeline.yaml
+    env:
+      CONSTITUENT: ${TEST_CONSTITUENT}
+- runFlow: ./subflows/_open_add_donation.yaml
+- runFlow:
+    file: ./subflows/_set_donation_amount.yaml
+    env:
+      AMOUNT: ${DONATION_AMOUNT_SMALL}
+- runFlow: ./subflows/_pay_saved.yaml
+- runFlow: ./subflows/_verify_donation_success.yaml
+
+# ─────────────────────────────────────────────
+# TC-12  Constituent Timeline — Recurring Donation — CC (any entry)
+# ─────────────────────────────────────────────
+- runFlow: ./subflows/_navigate_to_home.yaml
+- runFlow:
+    file: ./subflows/_navigate_constituent_timeline.yaml
+    env:
+      CONSTITUENT: ${TEST_CONSTITUENT}
+- runFlow:
+    file: ./subflows/_open_add_donation.yaml
+    env:
+      DONATION_TYPE: RECURRING
+- runFlow:
+    file: ./subflows/_set_donation_amount.yaml
+    env:
+      AMOUNT: ${DONATION_AMOUNT_MEDIUM}
+- runFlow:
+    file: ./subflows/_set_recurring_schedule.yaml
+    env:
+      FREQUENCY: ${RECURRING_FREQUENCY}
+- runFlow: ./subflows/_select_cc.yaml
+- runFlow: ./subflows/_pay_cc_t2p.yaml
+- runFlow: ./subflows/_verify_donation_success.yaml
+
+# ─────────────────────────────────────────────
+# TC-13  Constituent Timeline — Pledge Payment — CC (any entry)
+# ─────────────────────────────────────────────
+- runFlow: ./subflows/_navigate_to_home.yaml
+- runFlow:
+    file: ./subflows/_navigate_constituent_timeline.yaml
+    env:
+      CONSTITUENT: ${TEST_CONSTITUENT}
+- runFlow:
+    file: ./subflows/_open_add_donation.yaml
+    env:
+      DONATION_TYPE: PLEDGE
+- runFlow:
+    file: ./subflows/_select_pledge.yaml
+    env:
+      PLEDGE_SEARCH_TERM: ${PLEDGE_SEARCH_TERM}
+- runFlow:
+    file: ./subflows/_set_donation_amount.yaml
+    env:
+      AMOUNT: ${DONATION_AMOUNT_LARGE}
+- runFlow: ./subflows/_select_cc.yaml
+- runFlow: ./subflows/_pay_cc_t2p.yaml
+- runFlow: ./subflows/_verify_donation_success.yaml

@@ -1,0 +1,13 @@
+# Asserts that the donation/payment success screen appears,
+# then dismisses it to return to the previous context.
+---
+- assertVisible:
+    id: "DonationSuccessView"
+    timeout: 20000
+# Confirmation receipt or transaction ID should also be present
+- assertVisible:
+    id: "TransactionIdLabel"
+- takeScreenshot: donation_success
+- tapOn:
+    id: "DoneButton"
+- waitForAnimationToEnd

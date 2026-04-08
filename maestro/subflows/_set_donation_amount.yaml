@@ -1,0 +1,8 @@
+# Clears and sets the donation amount field.
+# Env: AMOUNT (e.g. "10.00")
+---
+- tapOn:
+    id: "DonationAmountEntry"
+- clearText
+- inputText: ${AMOUNT}
+- hideKeyboard

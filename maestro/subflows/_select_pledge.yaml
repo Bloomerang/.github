@@ -1,0 +1,16 @@
+# Selects a pledge to apply payment against on the Add Donation sheet.
+# Env: PLEDGE_SEARCH_TERM (partial pledge/campaign name)
+---
+- tapOn:
+    id: "PledgePaymentToggle"
+- waitForAnimationToEnd
+- tapOn:
+    id: "PledgeSearchEntry"
+- inputText: ${PLEDGE_SEARCH_TERM}
+- waitForAnimationToEnd
+- tapOn:
+    id: "PledgeSearchResultsList"
+    index: 0
+- waitForAnimationToEnd
+- assertVisible:
+    id: "SelectedPledgeLabel"

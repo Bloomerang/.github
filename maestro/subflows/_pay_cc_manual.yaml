@@ -1,0 +1,27 @@
+# CC entry method: Manual card entry
+# Env: CC_NUMBER, CC_EXPIRY (MM/YY), CC_CVV, CC_ZIP
+---
+- tapOn:
+    id: "EntryMethodManualButton"
+- waitForAnimationToEnd
+- tapOn:
+    id: "CardNumberEntry"
+- clearText
+- inputText: ${CC_NUMBER}
+- tapOn:
+    id: "CardExpiryEntry"
+- clearText
+- inputText: ${CC_EXPIRY}
+- tapOn:
+    id: "CardCVVEntry"
+- clearText
+- inputText: ${CC_CVV}
+- tapOn:
+    id: "BillingZipEntry"
+- clearText
+- inputText: ${CC_ZIP}
+- hideKeyboard
+- tapOn:
+    id: "ProcessPaymentButton"
+- waitForAnimationToEnd:
+    timeout: 20000

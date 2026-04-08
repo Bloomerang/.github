@@ -1,0 +1,18 @@
+# Opens the Add Donation sheet from the constituent timeline.
+# Env (optional): DONATION_TYPE — omit for standard one-time donation;
+#                 RECURRING → selects recurring; PLEDGE → selects pledge payment.
+---
+- tapOn:
+    id: "AddDonationButton"
+- waitForAnimationToEnd
+# Standard one-time donation is the default; override via DONATION_TYPE if set.
+- runFlow:
+    when:
+      visible:
+        id: "DonationTypeSelector"
+    commands:
+      - tapOn:
+          id: "DonationTypeSelector"
+      - waitForAnimationToEnd
+- assertVisible:
+    id: "DonationAmountEntry"

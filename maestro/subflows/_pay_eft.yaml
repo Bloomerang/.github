@@ -1,0 +1,22 @@
+# EFT / ACH bank account entry and submission
+# Env: ROUTING, ACCOUNT
+---
+- tapOn:
+    id: "RoutingNumberEntry"
+- clearText
+- inputText: ${ROUTING}
+- tapOn:
+    id: "AccountNumberEntry"
+- clearText
+- inputText: ${ACCOUNT}
+# Select account type (Checking is the default; adjust if needed)
+- tapOn:
+    id: "AccountTypeSelector"
+- waitForAnimationToEnd
+- tapOn:
+    text: "Checking"
+- hideKeyboard
+- tapOn:
+    id: "ProcessPaymentButton"
+- waitForAnimationToEnd:
+    timeout: 20000

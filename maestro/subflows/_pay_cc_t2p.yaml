@@ -1,0 +1,14 @@
+# CC entry method: Tap to Pay (NFC / iOS Tap to Pay / Android contactless)
+# Selects T2P, submits the payment, and waits for the device NFC prompt to resolve.
+# NOTE: On simulator/emulator this step will need to be mocked or skipped.
+---
+- tapOn:
+    id: "EntryMethodT2PButton"
+- waitForAnimationToEnd
+- tapOn:
+    id: "ProcessPaymentButton"
+- waitForAnimationToEnd
+# iOS Tap to Pay sheet or Android contactless overlay will appear;
+# the app resolves it automatically in sandbox/test mode.
+- waitForAnimationToEnd:
+    timeout: 20000

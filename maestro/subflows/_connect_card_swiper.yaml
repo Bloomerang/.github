@@ -1,0 +1,27 @@
+# Navigates to Payment Settings → Bloomerang Payments → connects the
+# physical CC card swiper/reader, then returns to home.
+# The physical reader must already be powered on and in range.
+---
+- tapOn:
+    id: "HamburgerMenuButton"
+- waitForAnimationToEnd
+- tapOn:
+    id: "PaymentSettingsMenuItem"
+- waitForAnimationToEnd
+- tapOn:
+    id: "BloomerangPaymentsRow"
+- waitForAnimationToEnd
+- tapOn:
+    id: "ConnectCardReaderButton"
+- waitForAnimationToEnd
+# Wait for BLE/audio-jack discovery — allow up to 20 s
+- assertVisible:
+    id: "CardReaderConnectedLabel"
+    timeout: 20000
+# Back out to home
+- tapOn:
+    id: "BackButton"
+- waitForAnimationToEnd
+- tapOn:
+    id: "BackButton"
+- waitForAnimationToEnd

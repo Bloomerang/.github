@@ -1,0 +1,9 @@
+# Selects "Credit / Debit Card" as the payment method.
+# Works for both Quick Donation and Add Donation sheets.
+---
+- tapOn:
+    id: "PaymentMethodCCOption"
+- waitForAnimationToEnd
+# Entry-method selector row should now be visible
+- assertVisible:
+    id: "EntryMethodSelector"

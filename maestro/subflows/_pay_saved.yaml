@@ -1,0 +1,17 @@
+# Selects the constituent's first saved payment method and submits.
+# Requires at least one saved payment on the test constituent's record.
+---
+- tapOn:
+    id: "PaymentMethodSavedOption"
+- waitForAnimationToEnd
+- assertVisible:
+    id: "SavedPaymentMethodsList"
+# Pick the first saved method in the list
+- tapOn:
+    id: "SavedPaymentMethodsList"
+    index: 0
+- waitForAnimationToEnd
+- tapOn:
+    id: "ProcessPaymentButton"
+- waitForAnimationToEnd:
+    timeout: 20000
