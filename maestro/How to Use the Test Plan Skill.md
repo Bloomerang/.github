@@ -4,7 +4,82 @@ This guide walks you through generating a manual test plan from a Jira ticket us
 
 ---
 
-## Before You Start (One-Time Setup)
+## Prerequisites (Do These First)
+
+These are one-time steps to get your machine set up. If you've already done them, skip ahead to [Before You Start](#before-you-start-one-time-setup).
+
+### 1. Install WSL and Ubuntu
+
+1. Press the Windows key, type `powershell`, right-click **Windows PowerShell** → **Run as administrator**
+2. Run:
+   ```
+   wsl --install
+   ```
+3. Restart your computer when it finishes
+4. After restart, Ubuntu opens automatically — create a username and password when prompted
+   > When typing your password, nothing appears on screen — that's normal
+
+---
+
+### 2. Install Node.js and Claude Code
+
+Open the Ubuntu terminal and run these one at a time:
+
+```bash
+sudo apt update
+sudo apt upgrade -y
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
+mkdir -p ~/.npm-global
+npm config set prefix ~/.npm-global
+echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.bashrc
+source ~/.bashrc
+npm install -g @anthropic-ai/claude-code
+```
+
+Then launch it:
+```bash
+claude
+```
+
+On first launch it will ask you to log in — use your Bloomerang Claude Enterprise account.
+
+---
+
+### 3. Authenticate with GitHub
+
+In the Ubuntu terminal (outside Claude Code):
+
+```bash
+sudo apt install gh -y
+gh auth login
+```
+
+When prompted:
+- **Where do you use GitHub?** → `GitHub.com`
+- **Preferred protocol?** → `HTTPS`
+- **Authenticate with browser?** → `Yes`
+
+A code will appear in the terminal. Open `https://github.com/login/device` in your browser, enter the code, and log in with your Bloomerang GitHub account.
+
+---
+
+### 4. Clone the Skills Repo
+
+```bash
+cd ~ && git clone https://github.com/Bloomerang/quality-assistance-skills-wip ~/quality-assistance-skills
+```
+
+---
+
+### 5. Get Your Jira API Token
+
+1. Go to `https://id.atlassian.com/manage-profile/security/api-tokens`
+2. Click **Create API token**, give it a name (e.g. "Claude Code"), and copy it somewhere safe
+
+---
+
+## Before You Start (One-Time Skill Setup)
 
 You need a `jira-config.yaml` file with your Jira credentials. If you haven't done this yet:
 
