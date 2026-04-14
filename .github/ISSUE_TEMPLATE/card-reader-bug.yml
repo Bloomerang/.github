@@ -1,0 +1,116 @@
+name: Card Reader Bug
+description: Report a bug with the card reader (Tap to Pay on iPhone / local mobile reader)
+title: "[Card Reader]: "
+labels: ["bug", "card-reader"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template to report issues with the built-in card reader (Tap to Pay on iPhone).
+
+        **Known issue — "merchant account cannot be used with the built-in reader, as it has been blocked"**
+        This Stripe error means the merchant's Stripe account does not have Tap to Pay on iPhone
+        enabled or has been restricted. It is **not** a device eligibility problem. Resolution steps:
+        1. Confirm Tap to Pay on iPhone is enabled in the merchant's Stripe Dashboard under
+           Settings → Payment methods → In-person payments.
+        2. Verify the Stripe account is not in restricted mode (check the Stripe Dashboard for
+           any outstanding verification requirements).
+        3. In the SDK wrapper (`TerminalService.cs`), call `SCPTerminal.SupportsReaders` before
+           attempting `ConnectLocalMobileReader` so the error can be caught and surfaced with a
+           clear, actionable message rather than a raw Stripe error string.
+
+  - type: dropdown
+    id: device
+    attributes:
+      label: Device model
+      options:
+        - iPhone XS
+        - iPhone XR
+        - iPhone 11
+        - iPhone 11 Pro / Pro Max
+        - iPhone SE (2nd gen)
+        - iPhone 12 / 12 mini
+        - iPhone 12 Pro / Pro Max
+        - iPhone 13 / 13 mini
+        - iPhone 13 Pro / Pro Max
+        - iPhone SE (3rd gen)
+        - iPhone 14 / 14 Plus
+        - iPhone 14 Pro / Pro Max
+        - iPhone 15 / 15 Plus
+        - iPhone 15 Pro / Pro Max
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: ios-version
+    attributes:
+      label: iOS version
+      placeholder: "e.g. 17.4.1"
+    validations:
+      required: true
+
+  - type: input
+    id: app-version
+    attributes:
+      label: App version
+      placeholder: "e.g. 3.2.1"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: reader-type
+    attributes:
+      label: Reader type
+      options:
+        - Built-in (Tap to Pay on iPhone / local mobile reader)
+        - Bluetooth (BBPOS WisePad 3 or similar)
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: error-message
+    attributes:
+      label: Exact error message
+      description: Copy the full error text shown in the app or from logs.
+      placeholder: "e.g. This merchant account cannot be used with the built-in reader, as it has been blocked."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open app
+        2. Navigate to Payments
+        3. Tap "Use card reader"
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      placeholder: The reader connects and the payment flow begins.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: stripe-mode
+    attributes:
+      label: Stripe account mode when error occurs
+      options:
+        - Live (production)
+        - Test
+        - Unknown
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Logs, screenshots, or anything else that may help.
